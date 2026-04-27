@@ -1,46 +1,284 @@
 const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 const strings = ["E", "A", "D", "G", "B", "E"];
+const languageStorageKey = "fretboard-caged-lab-language";
 
-const shapeInfo = {
-  C: {
-    name: "C Shape",
-    zone: [0, 4],
-    description:
-      "C Shape 偏向开放 C 和弦形状的移动理解。它很适合观察根音、三度音和五度音如何围绕一个熟悉的开放和弦轮廓展开。",
-    rootTip: "先记住 5 弦和 2 弦附近的 Root，再把它们和周围的 3、5 连起来。",
-    practiceTip: "从低音弦到高音弦慢慢弹出 1-3-5，不要急着扫完整个和弦。"
+let currentLanguage = "zh";
+
+const shapeZones = {
+  C: [0, 4],
+  A: [2, 6],
+  G: [4, 8],
+  E: [6, 10],
+  D: [8, 12]
+};
+
+const translations = {
+  zh: {
+    documentTitle: "Fretboard CAGED Lab | CAGED 吉他指板可视化",
+    metaDescription: "Fretboard CAGED Lab 是一个面向吉他学习者的 CAGED 系统可视化教学网页。",
+    nav: {
+      concept: "概念",
+      lab: "实验室",
+      practice: "练习"
+    },
+    hero: {
+      eyebrow: "CAGED 系统可视化",
+      subtitle: "面向吉他学习者的交互式 CAGED 系统可视化工具",
+      copy:
+        "这是一个帮助吉他学习者理解 CAGED 系统的可视化教学网页。你可以切换不同调性和 CAGED Shape，直观看到 Root、Major 3rd、Perfect 5th 在指板上的分布。",
+      button: "开始探索"
+    },
+    concept: {
+      eyebrow: "概念",
+      title: "什么是 CAGED 系统？",
+      cards: [
+        {
+          title: "来自五种开放和弦形状",
+          copy:
+            "CAGED 来自 C、A、G、E、D 五种开放和弦形状。它不是一套神秘公式，而是把常见和弦形状移动到不同把位的观察方式。"
+        },
+        {
+          title: "把和弦音放进整条指板",
+          copy:
+            "当你知道一个调的 Root、Major 3rd、Perfect 5th 在哪里，CAGED Shape 就能帮助你把零散音名连接成可演奏的区域。"
+        },
+        {
+          title: "先理解，再练速度",
+          copy:
+            "第一版重点是教学演示：先看清楚大三和弦音和 Shape 的区域感，再把这些位置变成日常练习素材。"
+        }
+      ]
+    },
+    controls: {
+      eyebrow: "交互实验室",
+      currentChordLabel: "当前和弦：",
+      rootLabel: "Root",
+      shapeLabel: "Shape",
+      displayLegend: "显示选项",
+      showAllNotes: "显示全部音名",
+      highlightChordTones: "高亮和弦音",
+      showIntervals: "显示音程"
+    },
+    legend: {
+      root: "Root",
+      third: "Major 3rd",
+      fifth: "Perfect 5th",
+      other: "其他音"
+    },
+    fretboard: {
+      eyebrow: "吉他指板",
+      title: "标准调弦 E A D G B E，0 到 12 品",
+      scrollLabel: "可横向滚动的吉他指板",
+      gridLabel: "吉他指板音名",
+      cellLabel: "第 {stringNumber} 弦，{fret} 品，音名 {note}{interval}",
+      intervalLabel: "，音程 {interval}"
+    },
+    shape: {
+      eyebrow: "当前 Shape",
+      rootTipLabel: "根音记忆提示：",
+      practiceTipLabel: "练习建议：",
+      badgeSuffix: "区域"
+    },
+    shapeInfo: {
+      C: {
+        name: "C Shape",
+        description:
+          "C Shape 偏向开放 C 和弦形状的移动理解。它适合用来观察 Root、Major 3rd、Perfect 5th 如何围绕一个熟悉的开放和弦轮廓展开。",
+        rootTip: "先记住 5 弦和 2 弦附近的 Root，再把它们和周围的 3、5 连起来。",
+        practiceTip: "从低音弦到高音弦慢慢弹出 1-3-5，不急着扫完整个和弦。"
+      },
+      A: {
+        name: "A Shape",
+        description:
+          "A Shape 偏向 A 和弦横按形状，是学习封闭大三和弦时很常见的区域。它能帮助你把 5 弦 Root 和中高音弦的和弦音连起来。",
+        rootTip: "重点看 5 弦上的 Root，它通常是这个 Shape 的方向点。",
+        practiceTip: "用 5 弦 Root 起手，分别向高音弦和低音弦寻找 3、5，练成小片段。"
+      },
+      G: {
+        name: "G Shape",
+        description:
+          "G Shape 来自开放 G 的轮廓，跨度比较大。它不一定最适合直接完整按住，但很适合理解相邻 Shape 之间的连接。",
+        rootTip: "把 6 弦和 1 弦上的 Root 当成边界，再观察中间弦的 3 和 5。",
+        practiceTip: "先拆成两三根弦的小区域练习，再和 C Shape、E Shape 串起来。"
+      },
+      E: {
+        name: "E Shape",
+        description:
+          "E Shape 偏向 E 和弦横按形状，非常常用。很多大横按、布鲁斯和摇滚节奏型都会从这个区域建立手感。",
+        rootTip: "6 弦 Root 是核心定位点，1 弦同品也会出现同名 Root。",
+        practiceTip: "先用 6 弦 Root 定位，再在同一区域内弹 1-3-5 分解和弦。"
+      },
+      D: {
+        name: "D Shape",
+        description:
+          "D Shape 来自开放 D 和弦形状，常用于高把位的小区域。它声音明亮，适合做旋律化和弦或高音区连接。",
+        rootTip: "多留意 4 弦和 2 弦附近的 Root，它们能帮你快速找到高把位小三角。",
+        practiceTip: "在 1 到 4 弦之间练小范围 1-3-5，适合接到旋律或双音练习。"
+      }
+    },
+    practice: {
+      eyebrow: "练习建议",
+      title: "把可视化变成手上的记忆",
+      tips: [
+        {
+          title: "先找 Root",
+          copy: "每换一个调，先别急着弹形状。把所有 Root 找出来，再回到你最熟的 Shape，会更容易建立方向感。"
+        },
+        {
+          title: "记住 1-3-5",
+          copy: "大三和弦的骨架就是 1、3、5。练习时边弹边说出 interval，比只记手型更扎实。"
+        },
+        {
+          title: "横向连接相邻 Shape",
+          copy: "不要把每个 Shape 当成孤岛。找到两个相邻区域共享的 Root，再尝试用滑音或小乐句把它们连起来。"
+        },
+        {
+          title: "一个调练熟再换调",
+          copy: "先用 C Major 或 G Major 练到能闭眼找到 1-3-5，再换到不熟的调。这样迁移会更自然。"
+        }
+      ]
+    },
+    footer: {
+      author: "作者：费浩然",
+      copy: "为吉他学习者和 creative coding 练习而构建。"
+    },
+    languageToggle: "English"
   },
-  A: {
-    name: "A Shape",
-    zone: [2, 6],
-    description:
-      "A Shape 偏向 A 和弦横按形状，是学习封闭大三和弦时非常常见的区域。它能帮助你把 5 弦根音和中高音弦的和弦音连起来。",
-    rootTip: "重点看 5 弦上的 Root，它通常是这个 Shape 的方向盘。",
-    practiceTip: "用 5 弦 Root 起手，分别向高音弦和低音弦寻找 3、5，练成小片段。"
-  },
-  G: {
-    name: "G Shape",
-    zone: [4, 8],
-    description:
-      "G Shape 来自开放 G 的轮廓，跨度比较大。它不一定是最容易直接按住的形状，但很适合理解相邻 Shape 之间的连接。",
-    rootTip: "把 6 弦和 1 弦上的 Root 当成边界，再观察中间弦的 3 和 5。",
-    practiceTip: "不要一次按完整形状，先拆成两三根弦的小区域，再和 C Shape、E Shape 串起来。"
-  },
-  E: {
-    name: "E Shape",
-    zone: [6, 10],
-    description:
-      "E Shape 偏向 E 和弦横按形状，非常常用。很多大横按和布鲁斯、摇滚节奏型都会从这个区域开始建立手感。",
-    rootTip: "6 弦 Root 是核心定位点，1 弦同品也会出现同名 Root。",
-    practiceTip: "先用 6 弦 Root 定位，再在同一区域内弹 1-3-5 分解和弦。"
-  },
-  D: {
-    name: "D Shape",
-    zone: [8, 12],
-    description:
-      "D Shape 来自开放 D 和弦形状，常用于高把位的小区域。它声音明亮，适合做旋律化和弦或高音区连接。",
-    rootTip: "多留意 4 弦和 2 弦附近的 Root，它们能帮你快速找到高把位小三角。",
-    practiceTip: "在 1 到 4 弦之间练小范围 1-3-5，适合接到旋律或双音练习。"
+  en: {
+    documentTitle: "Fretboard CAGED Lab | CAGED Guitar Fretboard Visualizer",
+    metaDescription:
+      "Fretboard CAGED Lab is an interactive CAGED system visualizer for guitar learners.",
+    nav: {
+      concept: "Concept",
+      lab: "Lab",
+      practice: "Practice"
+    },
+    hero: {
+      eyebrow: "CAGED System Visualizer",
+      subtitle: "Interactive CAGED System Visualizer for Guitar Learners",
+      copy:
+        "Fretboard CAGED Lab helps guitar learners understand the CAGED system by showing Root, Major 3rd, and Perfect 5th positions across the fretboard in different keys and shapes.",
+      button: "Start Exploring"
+    },
+    concept: {
+      eyebrow: "Concept",
+      title: "What is the CAGED system?",
+      cards: [
+        {
+          title: "Built from five open chord shapes",
+          copy:
+            "CAGED comes from the open C, A, G, E, and D chord shapes. It is a practical way to move familiar chord forms into different fretboard positions."
+        },
+        {
+          title: "Place chord tones across the fretboard",
+          copy:
+            "When you can see where the Root, Major 3rd, and Perfect 5th sit in a key, CAGED shapes become usable regions instead of isolated diagrams."
+        },
+        {
+          title: "Understand first, then build speed",
+          copy:
+            "This first version is a visual teaching demo. The goal is to see chord tones and shape areas clearly before turning them into daily practice material."
+        }
+      ]
+    },
+    controls: {
+      eyebrow: "Interactive Lab",
+      currentChordLabel: "Current Chord:",
+      rootLabel: "Root",
+      shapeLabel: "Shape",
+      displayLegend: "Display Options",
+      showAllNotes: "Show all notes",
+      highlightChordTones: "Highlight chord tones",
+      showIntervals: "Show intervals"
+    },
+    legend: {
+      root: "Root",
+      third: "Major 3rd",
+      fifth: "Perfect 5th",
+      other: "Other notes"
+    },
+    fretboard: {
+      eyebrow: "Guitar Fretboard",
+      title: "Standard tuning E A D G B E, frets 0 to 12",
+      scrollLabel: "Scrollable guitar fretboard",
+      gridLabel: "Guitar fretboard notes",
+      cellLabel: "String {stringNumber}, fret {fret}, note {note}{interval}",
+      intervalLabel: ", interval {interval}"
+    },
+    shape: {
+      eyebrow: "Current Shape",
+      rootTipLabel: "Root memory tip: ",
+      practiceTipLabel: "Practice tip: ",
+      badgeSuffix: "Zone"
+    },
+    shapeInfo: {
+      C: {
+        name: "C Shape",
+        description:
+          "C Shape is based on the movable idea of the open C chord. It is useful for seeing how the Root, Major 3rd, and Perfect 5th gather around a familiar chord outline.",
+        rootTip: "Start by locating the Roots around the 5th and 2nd strings, then connect them to nearby 3rds and 5ths.",
+        practiceTip: "Play 1-3-5 slowly from low strings to high strings before trying to strum the whole shape."
+      },
+      A: {
+        name: "A Shape",
+        description:
+          "A Shape is related to the movable A barre chord form. It is a common area for learning closed major triads from a 5th-string Root.",
+        rootTip: "Focus on the Root on the 5th string. It usually acts as the anchor point for this shape.",
+        practiceTip: "Start from the 5th-string Root, then find the 3rd and 5th toward both the higher and lower strings."
+      },
+      G: {
+        name: "G Shape",
+        description:
+          "G Shape comes from the open G outline and covers a wider span. It is often better for understanding connections than for grabbing the whole shape at once.",
+        rootTip: "Use the Roots on the 6th and 1st strings as boundaries, then study the 3rds and 5ths between them.",
+        practiceTip: "Break it into small two- or three-string areas, then connect it with C Shape and E Shape."
+      },
+      E: {
+        name: "E Shape",
+        description:
+          "E Shape is based on the movable E barre chord form. It is one of the most common regions for major chords, rhythm parts, and rock or blues vocabulary.",
+        rootTip: "The 6th-string Root is the main anchor, and the 1st string has the same Root at the same fret.",
+        practiceTip: "Use the 6th-string Root to locate the shape, then play 1-3-5 arpeggios inside the same area."
+      },
+      D: {
+        name: "D Shape",
+        description:
+          "D Shape comes from the open D chord form and is often used in compact higher-position areas. It has a bright sound and works well for melodic chord ideas.",
+        rootTip: "Watch the Roots around the 4th and 2nd strings. They help you find the small upper-register triangle quickly.",
+        practiceTip: "Practice 1-3-5 on strings 1 through 4, then connect the shape to melody or double-stop ideas."
+      }
+    },
+    practice: {
+      eyebrow: "Practice Tips",
+      title: "Turn the visual map into fretboard memory",
+      tips: [
+        {
+          title: "Find the Root First",
+          copy:
+            "When you change keys, do not rush into the shape. Find the Roots first, then return to the shape you know best."
+        },
+        {
+          title: "Remember 1-3-5",
+          copy:
+            "A major triad is built from 1, 3, and 5. Say the interval names as you play so the shape becomes more than a fingering."
+        },
+        {
+          title: "Connect Neighboring Shapes",
+          copy:
+            "Do not treat each shape as an island. Find shared Roots between nearby regions and connect them with slides or short phrases."
+        },
+        {
+          title: "Master One Key Before Moving On",
+          copy:
+            "Use C Major or G Major until you can find 1-3-5 without hesitation, then move the same idea into less familiar keys."
+        }
+      ]
+    },
+    footer: {
+      author: "Author: 费浩然",
+      copy: "Built for guitar learners and creative coding practice."
+    },
+    languageToggle: "中文"
   }
 };
 
@@ -67,6 +305,67 @@ function getIntervalName(note, chordTones) {
   return "";
 }
 
+function getSavedLanguage() {
+  const savedLanguage = localStorage.getItem(languageStorageKey);
+  return ["zh", "en"].includes(savedLanguage) ? savedLanguage : "";
+}
+
+function saveLanguage(lang) {
+  localStorage.setItem(languageStorageKey, lang);
+}
+
+function showLanguageGate() {
+  dom.languageGate.classList.remove("is-hidden");
+  dom.app.classList.add("is-hidden");
+  dom.app.setAttribute("aria-hidden", "true");
+}
+
+function hideLanguageGate() {
+  dom.languageGate.classList.add("is-hidden");
+  dom.app.classList.remove("is-hidden");
+  dom.app.removeAttribute("aria-hidden");
+}
+
+function setLanguage(lang) {
+  currentLanguage = ["zh", "en"].includes(lang) ? lang : "zh";
+  saveLanguage(currentLanguage);
+  document.documentElement.lang = currentLanguage === "zh" ? "zh-CN" : "en";
+  hideLanguageGate();
+  updateTexts();
+  updateView();
+}
+
+function getTranslation(path) {
+  return path.split(".").reduce((source, key) => source?.[key], translations[currentLanguage]) || "";
+}
+
+function updateTexts() {
+  const t = translations[currentLanguage];
+  document.title = t.documentTitle;
+
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (metaDescription) metaDescription.setAttribute("content", t.metaDescription);
+
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    element.textContent = getTranslation(element.dataset.i18n);
+  });
+
+  renderConceptCards();
+  renderPracticeTips();
+  dom.currentChordLabel.textContent = t.controls.currentChordLabel;
+  dom.shapeRootLabel.textContent = t.shape.rootTipLabel;
+  dom.shapePracticeLabel.textContent = t.shape.practiceTipLabel;
+  dom.footerAuthor.textContent = t.footer.author;
+  dom.fretboardScroll.setAttribute("aria-label", t.fretboard.scrollLabel);
+  dom.fretboard.setAttribute("aria-label", t.fretboard.gridLabel);
+  updateLanguageToggle();
+}
+
+function updateLanguageToggle() {
+  dom.languageToggle.textContent = translations[currentLanguage].languageToggle;
+  dom.languageToggle.setAttribute("aria-label", translations[currentLanguage].languageToggle);
+}
+
 function getIntervalClass(intervalName) {
   if (intervalName === "R") return "interval-root";
   if (intervalName === "3") return "interval-third";
@@ -86,6 +385,35 @@ function createCell(tagName, className, textContent) {
   return cell;
 }
 
+function renderCards(container, cards, className) {
+  container.innerHTML = "";
+  cards.forEach((card) => {
+    const article = document.createElement("article");
+    article.className = className;
+
+    const title = document.createElement("h3");
+    title.textContent = card.title;
+
+    const copy = document.createElement("p");
+    copy.textContent = card.copy;
+
+    article.append(title, copy);
+    container.appendChild(article);
+  });
+}
+
+function renderConceptCards() {
+  renderCards(dom.conceptGrid, translations[currentLanguage].concept.cards, "info-card");
+}
+
+function renderPracticeTips() {
+  renderCards(dom.tipsGrid, translations[currentLanguage].practice.tips, "tip-card");
+}
+
+function formatText(template, values) {
+  return template.replace(/\{(\w+)}/g, (_, key) => values[key] ?? "");
+}
+
 function renderFretboard() {
   const root = dom.rootSelect.value;
   const selectedShape = dom.shapeSelect.value;
@@ -93,7 +421,8 @@ function renderFretboard() {
   const showAllNotes = dom.showAllNotes.checked;
   const highlightChordTones = dom.highlightChordTones.checked;
   const showIntervals = dom.showIntervals.checked;
-  const [zoneStart, zoneEnd] = shapeInfo[selectedShape].zone;
+  const [zoneStart, zoneEnd] = shapeZones[selectedShape];
+  const t = translations[currentLanguage].fretboard;
 
   dom.fretboard.innerHTML = "";
   dom.fretboard.appendChild(createCell("div", "corner-cell", ""));
@@ -123,7 +452,12 @@ function renderFretboard() {
       cell.setAttribute("role", "gridcell");
       cell.setAttribute(
         "aria-label",
-        `String ${stringNumber}, fret ${fret}, note ${note}${intervalName ? `, interval ${intervalName}` : ""}`
+        formatText(t.cellLabel, {
+          stringNumber,
+          fret,
+          note,
+          interval: intervalName ? formatText(t.intervalLabel, { interval: intervalName }) : ""
+        })
       );
 
       const content = document.createElement("span");
@@ -149,13 +483,13 @@ function renderFretboard() {
 
 function updateShapeExplanation() {
   const selectedShape = dom.shapeSelect.value;
-  const info = shapeInfo[selectedShape];
+  const info = translations[currentLanguage].shapeInfo[selectedShape];
 
   dom.shapeName.textContent = info.name;
   dom.shapeDescription.textContent = info.description;
   dom.shapeRootTip.textContent = info.rootTip;
   dom.shapePracticeTip.textContent = info.practiceTip;
-  dom.shapeBadge.textContent = `${info.name} Zone`;
+  dom.shapeBadge.textContent = `${info.name} ${translations[currentLanguage].shape.badgeSuffix}`;
 }
 
 function updateCurrentChordTitle() {
@@ -193,27 +527,52 @@ function bindEvents() {
       }
     });
   });
+
+  document.querySelectorAll("[data-language-choice]").forEach((button) => {
+    button.addEventListener("click", () => setLanguage(button.dataset.languageChoice));
+  });
+
+  dom.languageToggle.addEventListener("click", () => {
+    setLanguage(currentLanguage === "zh" ? "en" : "zh");
+  });
 }
 
 function cacheDom() {
+  dom.languageGate = document.querySelector("#language-gate");
+  dom.app = document.querySelector("#app");
+  dom.languageToggle = document.querySelector("#language-toggle");
   dom.rootSelect = document.querySelector("#root-select");
   dom.shapeSelect = document.querySelector("#shape-select");
   dom.showAllNotes = document.querySelector("#show-all-notes");
   dom.highlightChordTones = document.querySelector("#highlight-chord-tones");
   dom.showIntervals = document.querySelector("#show-intervals");
+  dom.currentChordLabel = document.querySelector("#current-chord-label");
   dom.currentChordTitle = document.querySelector("#current-chord-title");
+  dom.conceptGrid = document.querySelector("#concept-grid");
+  dom.tipsGrid = document.querySelector("#tips-grid");
+  dom.fretboardScroll = document.querySelector("#fretboard-scroll");
   dom.fretboard = document.querySelector("#fretboard");
   dom.shapeName = document.querySelector("#shape-name");
   dom.shapeDescription = document.querySelector("#shape-description");
+  dom.shapeRootLabel = document.querySelector("#shape-root-label");
   dom.shapeRootTip = document.querySelector("#shape-root-tip");
+  dom.shapePracticeLabel = document.querySelector("#shape-practice-label");
   dom.shapePracticeTip = document.querySelector("#shape-practice-tip");
   dom.shapeBadge = document.querySelector("#shape-badge");
+  dom.footerAuthor = document.querySelector("#footer-author");
 }
 
 function init() {
   cacheDom();
   bindEvents();
-  updateView();
+
+  const savedLanguage = getSavedLanguage();
+  if (!savedLanguage) {
+    showLanguageGate();
+    return;
+  }
+
+  setLanguage(savedLanguage);
 }
 
 document.addEventListener("DOMContentLoaded", init);
