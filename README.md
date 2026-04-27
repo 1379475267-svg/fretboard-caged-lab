@@ -6,7 +6,14 @@
 ![HTML](https://img.shields.io/badge/HTML5-Structure-orange)
 ![CSS](https://img.shields.io/badge/CSS3-Style-blue)
 ![JavaScript](https://img.shields.io/badge/JavaScript-Interaction-yellow)
-![Status](https://img.shields.io/badge/Status-Visual%20Demo-brightgreen)
+![Status](https://img.shields.io/badge/Status-Bilingual%20Visual%20Demo-brightgreen)
+![No Dependencies](https://img.shields.io/badge/Dependencies-None-lightgrey)
+
+---
+
+## 🌐 Live Demo / 在线预览
+
+👉 [Open Fretboard CAGED Lab](https://1379475267-svg.github.io/fretboard-caged-lab/)
 
 ---
 
@@ -14,27 +21,47 @@
 
 **Fretboard CAGED Lab** is an interactive visual teaching demo for guitar learners.
 
-It is built with native **HTML / CSS / JavaScript** and helps users understand the CAGED system through an interactive guitar fretboard. Users can select different root notes and CAGED shapes to see how **Root, Major 3rd, and Perfect 5th** are distributed across the fretboard.
+It helps users understand the CAGED system through an interactive guitar fretboard. Users can select different root notes and CAGED shapes to see how **Root, Major 3rd, and Perfect 5th** are distributed across the fretboard.
+
+The project also supports a bilingual interface. When users open the page for the first time, they can choose either **Chinese** or **English**, and the selected language will be saved locally for the next visit.
 
 **Fretboard CAGED Lab** 是一个面向吉他学习者的交互式可视化教学项目。
 
-它使用原生 **HTML / CSS / JavaScript** 构建，通过交互式吉他指板展示不同调性下 **Root、Major 3rd、Perfect 5th** 在指板上的分布，并结合 **C、A、G、E、D** 五种 CAGED Shape 的说明，帮助学习者更直观地理解和弦音、指板结构与形状连接。
+它通过交互式吉他指板展示不同调性下 **Root、Major 3rd、Perfect 5th** 在指板上的分布，并结合 **C、A、G、E、D** 五种 CAGED Shape 的说明，帮助学习者更直观地理解和弦音、指板结构与形状连接。
+
+项目同时支持中英文界面。用户首次打开网页时，可以选择 **中文** 或 **English**，系统会将语言偏好保存在本地，下次打开时自动使用上一次选择的语言。
 
 ---
 
-## 🌐 Live Demo / 在线预览
-https://1379475267-svg.github.io/fretboard-caged-lab/
+## 🖼️ Preview / 项目展示
 
+### Language Selection / 语言选择界面
 
+![Language Selection](assets/language-gate.png)
 
+### Chinese Interface / 中文界面
 
-```text
-https://1379475267-svg.github.io/fretboard-caged-lab/
-```
+![Chinese Interface](assets/chinese-interface.png)
+
+### English Interface / English 界面
+
+![English Interface](assets/english-interface.png)
 
 ---
 
 ## ✨ Features / 功能特点
+
+- **Language Selection**  
+  Choose Chinese or English when opening the project for the first time.  
+  首次打开项目时，可先选择中文或 English 界面。
+
+- **Bilingual Interface**  
+  The entire interface switches between Chinese and English without mixed-language content.  
+  页面内容会根据当前语言完整切换，避免中英文混排。
+
+- **Saved Language Preference**  
+  The selected language is saved with `localStorage` and will be remembered on the next visit.  
+  使用 `localStorage` 保存语言偏好，下次打开网页时自动使用上次选择的语言。
 
 - **Root Selector**  
   Select root notes from the 12-tone equal temperament system.  
@@ -57,7 +84,7 @@ https://1379475267-svg.github.io/fretboard-caged-lab/
   支持显示 R / 3 / 5，帮助理解和弦音功能。
 
 - **Shape Explanation**  
-  Provide explanation, root-position tips, and practice suggestions for each CAGED shape.  
+  Provide explanations, root-position tips, and practice suggestions for each CAGED shape.  
   每个 CAGED Shape 都配有说明、根音记忆提示和练习建议。
 
 - **Responsive Design**  
@@ -75,8 +102,9 @@ https://1379475267-svg.github.io/fretboard-caged-lab/
 | Technology | Usage |
 |---|---|
 | HTML5 | Page structure / 页面结构 |
-| CSS3 | Styling and responsive layout / 视觉设计与响应式布局 |
-| Vanilla JavaScript | Fretboard rendering and interaction / 指板渲染与交互逻辑 |
+| CSS3 | Styling, responsive layout, visual design / 样式设计、响应式布局与视觉表现 |
+| Vanilla JavaScript | Fretboard rendering, language switching, interaction logic / 指板渲染、语言切换与交互逻辑 |
+| localStorage | Save language preference / 保存语言偏好 |
 
 ---
 
@@ -87,7 +115,11 @@ Fretboard-CAGED-Lab/
 ├── index.html
 ├── style.css
 ├── script.js
-└── README.md
+├── README.md
+└── assets/
+    ├── language-gate.png
+    ├── chinese-interface.png
+    └── english-interface.png
 ```
 
 ---
@@ -217,36 +249,11 @@ This project is suitable for:
 - Players who want to understand fretboard note distribution  
   想理解指板音名分布的人
 
-- Learners practicing Root / 3rd / 5th recognition  
-  想练习 Root / 3rd / 5th 识别的人
+- Learners practicing Root / Major 3rd / Perfect 5th recognition  
+  想练习 Root / Major 3rd / Perfect 5th 识别的人
 
 - People interested in music visualization and creative coding  
   喜欢音乐可视化与 creative coding 的学习者
-
----
-
-## 🖼️ Preview / 项目展示
-
-No screenshots or demo videos have been added yet.
-
-目前暂未添加项目截图或演示视频。
-
-Preview screenshots and demo video will be added after the first GitHub Pages deployment.
-
-后续将在 GitHub Pages 部署完成后补充项目截图和演示视频。
-
-Planned preview materials:
-
-后续计划补充：
-
-- Homepage screenshot  
-  项目首页截图
-
-- Fretboard interaction screenshot  
-  指板交互截图
-
-- Short demo GIF or video  
-  简短演示 GIF 或视频
 
 ---
 
@@ -258,8 +265,8 @@ Planned preview materials:
 - [ ] 🔊 Audio Playback
 - [ ] 🧠 Fretboard Quiz
 - [ ] 🗺️ Better shape position mapping
-- [ ] 📸 Add preview screenshots
-- [ ] 🌐 Publish GitHub Pages live demo
+- [ ] 📸 Add more preview screenshots
+- [ ] 🎬 Add a short demo GIF or video
 
 ---
 
