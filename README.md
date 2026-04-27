@@ -23,7 +23,7 @@ It is built with native **HTML / CSS / JavaScript** and helps users understand t
 ---
 
 ## 🌐 Live Demo / 在线预览
-
+https://1379475267-svg.github.io/fretboard-caged-lab/
 
 
 
