@@ -1,42 +1,47 @@
 # Fretboard CAGED Lab
 
-## 项目简介
+**Interactive CAGED System Visualizer for Guitar Learners**
+
+## 🎸 项目简介 / Introduction
 
 Fretboard CAGED Lab 是一个面向吉他学习者的 CAGED 系统可视化教学网页。
 
-它不是传统文字教程，而是通过交互式吉他指板，帮助学习者直观看到不同调性下 Root、Major 3rd、Perfect 5th 在指板上的分布，并结合 C、A、G、E、D 五种 CAGED Shape 的说明，建立对整条指板的基本理解。
+它使用原生 HTML、CSS、JavaScript 构建，通过交互式吉他指板展示不同调性下 Root、Major 3rd、Perfect 5th 在指板上的分布，并结合 C、A、G、E、D 五种 CAGED Shape 的中文说明，帮助学习者更直观地理解 CAGED 系统和指板结构。
 
-第一版定位是 visual teaching demo：重点是看清楚和弦音、Shape 区域感和练习思路，不声称实现复杂真实指法训练。
+This is a first-version visual teaching demo for guitar learners. It focuses on helping users see chord tones and CAGED shape areas clearly on the fretboard.
 
-## 项目预览
+## 🌐 在线预览 / Live Demo
+
+Live Demo: Coming soon after GitHub Pages deployment.
+
+## 🖼️ 项目预览 / Preview
 
 Preview image will be added later.
 
-如果后续添加截图，可以放在：
+Preview placeholder:
 
 ```text
 assets/preview.png
 ```
 
-## 功能特点
+## ✨ 功能特点 / Features
 
-- Root 选择：C 到 B 的 12 平均律音名
-- Shape 选择：C Shape、A Shape、G Shape、E Shape、D Shape
-- 自动计算 Major triad：Root、Major 3rd、Perfect 5th
-- 标准调弦指板：6 弦到 1 弦，E A D G B E
-- 0 到 12 品横向指板展示
-- 可切换显示所有音、突出和弦音、显示 interval
-- 当前 CAGED Shape 中文说明、根音记忆提示和练习建议
-- 适配桌面和手机，手机端指板支持横向滚动
-- 纯 HTML / CSS / JavaScript，无构建工具，无外部依赖
+- **Root selector**：支持 12 平均律音名选择
+- **CAGED Shape selector**：支持 C / A / G / E / D Shape
+- **Interactive fretboard**：6 strings, 0-12 frets
+- **Major triad visualization**：Root / Major 3rd / Perfect 5th
+- **Interval display**：显示 R / 3 / 5
+- **Shape explanation**：当前 Shape 中文说明、根音提示和练习建议
+- **Responsive design**：适配桌面和移动端，手机端指板可横向滚动
+- **No dependencies**：纯 HTML / CSS / JavaScript，无构建工具
 
-## 技术栈
+## 🛠️ 技术栈 / Tech Stack
 
 - HTML5
 - CSS3
 - Vanilla JavaScript
 
-## 项目结构
+## 📁 项目结构 / Project Structure
 
 ```text
 Fretboard-CAGED-Lab/
@@ -46,38 +51,54 @@ Fretboard-CAGED-Lab/
 └── README.md
 ```
 
-## 本地运行方式
+## 🚀 使用方式 / How to Use
 
-直接双击 `index.html` 即可在浏览器中运行。
+本地使用：
 
-也可以使用任意静态服务器打开项目目录，例如 VS Code Live Server。项目没有构建步骤，不需要安装依赖。
+- 直接双击 `index.html` 在浏览器中打开
+- 或使用 VS Code Live Server 打开项目目录
 
-## GitHub Pages 部署方式
+GitHub Pages 部署：
 
-1. 创建一个新的 GitHub 仓库，例如 `Fretboard-CAGED-Lab`
-2. 上传本项目中的 `index.html`、`style.css`、`script.js` 和 `README.md`
-3. 进入仓库的 `Settings`
-4. 打开 `Pages`
-5. Source 选择 `Deploy from a branch`
-6. Branch 选择 `main`，目录选择 `/root`
-7. 保存后等待 GitHub Pages 构建完成
+```text
+Settings → Pages → Deploy from a branch → main → /root
+```
 
-部署完成后，GitHub 会生成一个可访问的网址。
+项目不需要安装依赖，也没有构建步骤。上传到 GitHub 后即可作为静态网页部署。
 
-## Roadmap
+## 🎼 音乐理论说明 / Music Theory Notes
 
-- Minor CAGED
-- Pentatonic Scale
-- Practice Mode
-- Audio Playback
-- Fretboard Quiz
+- 标准调弦：E A D G B E
+- 12 平均律音名：C, C#, D, D#, E, F, F#, G, G#, A, A#, B
+- Major triad = Root + Major 3rd + Perfect 5th
+- 例如 C Major = C + E + G
 
-## 作者
+当前版本主要用于可视化理解 CAGED 系统和大三和弦音分布，不等同于完整的真实指法训练系统。
+
+## 🧭 Roadmap
+
+- [ ] 🎵 Minor CAGED
+- [ ] 🎶 Pentatonic Scale
+- [ ] 🎯 Practice Mode
+- [ ] 🔊 Audio Playback
+- [ ] 🧠 Fretboard Quiz
+- [ ] 🗺️ Better shape position mapping
+
+## 👥 适合人群 / Who Is This For
+
+- 吉他初学者
+- 正在学习 CAGED 系统的人
+- 想理解指板音名分布的人
+- 喜欢音乐可视化和 creative coding 的人
+
+## ✍️ 作者 / Author
 
 费浩然
 
 Built for guitar learners and creative coding practice.
 
-## License
+## 📄 License
 
 MIT License
+
+This project is planned to be released under the MIT License.
