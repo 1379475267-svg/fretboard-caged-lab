@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Fretboard CAGED Lab is an interactive CAGED system visualizer for guitar learners."
+    />
+    <title>Fretboard CAGED Lab</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="topbar" aria-label="Primary">
+        <a class="brand" href="#top" aria-label="Fretboard CAGED Lab home">FCL</a>
+        <div class="nav-links" aria-label="Page sections">
+          <a href="#concept">Concept</a>
+          <a href="#lab">Lab</a>
+          <a href="#practice">Practice</a>
+        </div>
+      </nav>
+
+      <section class="hero-content" id="top">
+        <p class="eyebrow">CAGED System Visualizer</p>
+        <h1>Fretboard CAGED Lab</h1>
+        <p class="subtitle">Interactive CAGED System Visualizer for Guitar Learners</p>
+        <p class="hero-copy">
+          这是一个帮助吉他学习者理解 CAGED 系统的可视化教学网页。你可以切换不同调性和
+          CAGED Shape，直观看到 Root、3rd、5th 这些核心和弦音在指板上的分布。
+        </p>
+        <button class="primary-button" type="button" data-scroll-target="#lab">
+          Start Exploring
+        </button>
+      </section>
+    </header>
+
+    <main>
+      <section class="section concept-section" id="concept" aria-labelledby="concept-title">
+        <div class="section-heading">
+          <p class="eyebrow">Concept</p>
+          <h2 id="concept-title">什么是 CAGED 系统？</h2>
+        </div>
+        <div class="concept-grid">
+          <article class="info-card">
+            <h3>来自五种开放和弦形状</h3>
+            <p>
+              CAGED 来自 C、A、G、E、D 五种开放和弦形状。它不是一套神秘公式，而是把常见和弦形状移动到不同把位的观察方式。
+            </p>
+          </article>
+          <article class="info-card">
+            <h3>把和弦音放进整条指板</h3>
+            <p>
+              当你知道一个调的 Root、Major 3rd、Perfect 5th 在哪里，CAGED Shape 就能帮助你把零散音名连接成可演奏的区域。
+            </p>
+          </article>
+          <article class="info-card">
+            <h3>先理解，再练速度</h3>
+            <p>
+              第一版重点是教学演示：先看清楚大三和弦音和 Shape 的区域感，再把这些位置变成日常练习素材。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section lab-section" id="lab" aria-labelledby="lab-title">
+        <div class="section-heading">
+          <p class="eyebrow">Interactive Lab</p>
+          <h2 id="lab-title">当前和弦：<span id="current-chord-title">C Major</span></h2>
+        </div>
+
+        <div class="control-panel" aria-label="Control panel">
+          <div class="field-group">
+            <label for="root-select">Root</label>
+            <select id="root-select" name="root">
+              <option value="C">C</option>
+              <option value="C#">C#</option>
+              <option value="D">D</option>
+              <option value="D#">D#</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+              <option value="F#">F#</option>
+              <option value="G">G</option>
+              <option value="G#">G#</option>
+              <option value="A">A</option>
+              <option value="A#">A#</option>
+              <option value="B">B</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="shape-select">Shape</label>
+            <select id="shape-select" name="shape">
+              <option value="C">C Shape</option>
+              <option value="A">A Shape</option>
+              <option value="G">G Shape</option>
+              <option value="E">E Shape</option>
+              <option value="D">D Shape</option>
+            </select>
+          </div>
+
+          <fieldset class="toggle-group">
+            <legend>Display</legend>
+            <label class="toggle">
+              <input id="show-all-notes" type="checkbox" checked />
+              <span>Show all notes</span>
+            </label>
+            <label class="toggle">
+              <input id="highlight-chord-tones" type="checkbox" checked />
+              <span>Highlight chord tones</span>
+            </label>
+            <label class="toggle">
+              <input id="show-intervals" type="checkbox" checked />
+              <span>Show intervals</span>
+            </label>
+          </fieldset>
+        </div>
+
+        <div class="legend" aria-label="Fretboard legend">
+          <span class="legend-item"><span class="legend-dot root"></span>Root</span>
+          <span class="legend-item"><span class="legend-dot third"></span>Major 3rd</span>
+          <span class="legend-item"><span class="legend-dot fifth"></span>Perfect 5th</span>
+          <span class="legend-item"><span class="legend-dot other"></span>Other notes</span>
+        </div>
+
+        <div class="fretboard-shell" aria-labelledby="fretboard-title">
+          <div class="fretboard-header">
+            <div>
+              <p class="eyebrow">Guitar Fretboard</p>
+              <h3 id="fretboard-title">标准调弦 E A D G B E，0 到 12 品</h3>
+            </div>
+            <span id="shape-badge" class="shape-badge">C Shape Zone</span>
+          </div>
+          <div class="fretboard-scroll" tabindex="0" aria-label="Scrollable guitar fretboard">
+            <div id="fretboard" class="fretboard" role="grid" aria-label="Guitar fretboard notes"></div>
+          </div>
+        </div>
+
+        <article class="shape-explanation" aria-labelledby="shape-name">
+          <div class="shape-title-row">
+            <p class="eyebrow">Current Shape</p>
+            <h3 id="shape-name">C Shape</h3>
+          </div>
+          <div class="shape-copy">
+            <p id="shape-description"></p>
+            <p><strong>根音记忆提示：</strong><span id="shape-root-tip"></span></p>
+            <p><strong>练习建议：</strong><span id="shape-practice-tip"></span></p>
+          </div>
+        </article>
+      </section>
+
+      <section class="section practice-section" id="practice" aria-labelledby="practice-title">
+        <div class="section-heading">
+          <p class="eyebrow">Practice Tips</p>
+          <h2 id="practice-title">把可视化变成手上的记忆</h2>
+        </div>
+        <div class="tips-grid">
+          <article class="tip-card">
+            <h3>先找 Root</h3>
+            <p>每换一个调，先别急着弹形状。把所有 Root 找出来，再回到你最熟的 Shape，会更容易建立方向感。</p>
+          </article>
+          <article class="tip-card">
+            <h3>记住 1-3-5</h3>
+            <p>大三和弦的骨架就是 1、3、5。练习时边弹边说出 interval，比只记手型更扎实。</p>
+          </article>
+          <article class="tip-card">
+            <h3>横向连接相邻 Shape</h3>
+            <p>不要把每个 Shape 当成孤岛。找到两个相邻区域共享的 Root，再尝试用滑音或小乐句把它们连起来。</p>
+          </article>
+          <article class="tip-card">
+            <h3>一个调练熟再换调</h3>
+            <p>先用 C Major 或 G Major 练到能闭眼找到 1-3-5，再换到不熟的调。这样迁移会更自然。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>作者：费浩然</p>
+      <p>Built for guitar learners and creative coding practice.</p>
+      <p>HTML / CSS / JavaScript</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
