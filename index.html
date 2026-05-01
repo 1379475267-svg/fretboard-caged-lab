@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Fretboard CAGED Lab is an interactive CAGED system visualizer for guitar learners."
+      content="Fretboard CAGED Lab is an interactive CAGED and scale visualizer for guitar learners."
     />
     <title>Fretboard CAGED Lab</title>
     <link rel="stylesheet" href="style.css" />
@@ -39,7 +39,7 @@
             <div class="nav-links" aria-label="Page sections">
               <a href="#concept" data-i18n="nav.concept"></a>
               <a href="#lab" data-i18n="nav.lab"></a>
-              <a href="#practice" data-i18n="nav.practice"></a>
+              <a href="#tips" data-i18n="nav.tips"></a>
             </div>
             <button id="language-toggle" class="language-toggle" type="button"></button>
           </div>
@@ -71,6 +71,14 @@
 
           <div class="control-panel" aria-label="Control panel">
             <div class="field-group">
+              <label for="mode-select" data-i18n="controls.modeLabel"></label>
+              <select id="mode-select" name="mode">
+                <option value="chord"></option>
+                <option value="scale"></option>
+              </select>
+            </div>
+
+            <div class="field-group">
               <label for="root-select" data-i18n="controls.rootLabel"></label>
               <select id="root-select" name="root">
                 <option value="C">C</option>
@@ -88,7 +96,7 @@
               </select>
             </div>
 
-            <div class="field-group">
+            <div id="shape-field" class="field-group">
               <label for="shape-select" data-i18n="controls.shapeLabel"></label>
               <select id="shape-select" name="shape">
                 <option value="C">C Shape</option>
@@ -96,6 +104,17 @@
                 <option value="G">G Shape</option>
                 <option value="E">E Shape</option>
                 <option value="D">D Shape</option>
+              </select>
+            </div>
+
+            <div id="scale-field" class="field-group is-hidden">
+              <label for="scale-select" data-i18n="controls.scaleLabel"></label>
+              <select id="scale-select" name="scale">
+                <option value="major"></option>
+                <option value="naturalMinor"></option>
+                <option value="majorPentatonic"></option>
+                <option value="minorPentatonic"></option>
+                <option value="blues"></option>
               </select>
             </div>
 
@@ -107,7 +126,7 @@
               </label>
               <label class="toggle">
                 <input id="highlight-chord-tones" type="checkbox" checked />
-                <span data-i18n="controls.highlightChordTones"></span>
+                <span id="highlight-tone-label"></span>
               </label>
               <label class="toggle">
                 <input id="show-intervals" type="checkbox" checked />
@@ -116,11 +135,16 @@
             </fieldset>
           </div>
 
+          <article id="mode-explanation" class="mode-explanation" aria-live="polite">
+            <h3 id="mode-explanation-title"></h3>
+            <p id="mode-explanation-copy"></p>
+          </article>
+
           <div class="legend" aria-label="Fretboard legend">
-            <span class="legend-item"><span class="legend-dot root"></span><span data-i18n="legend.root"></span></span>
-            <span class="legend-item"><span class="legend-dot third"></span><span data-i18n="legend.third"></span></span>
-            <span class="legend-item"><span class="legend-dot fifth"></span><span data-i18n="legend.fifth"></span></span>
-            <span class="legend-item"><span class="legend-dot other"></span><span data-i18n="legend.other"></span></span>
+            <span id="legend-root-item" class="legend-item"><span class="legend-dot root"></span><span id="legend-root-label"></span></span>
+            <span id="legend-third-item" class="legend-item"><span class="legend-dot third"></span><span id="legend-third-label"></span></span>
+            <span id="legend-fifth-item" class="legend-item"><span class="legend-dot fifth"></span><span id="legend-fifth-label"></span></span>
+            <span id="legend-other-item" class="legend-item"><span class="legend-dot other"></span><span id="legend-other-label"></span></span>
           </div>
 
           <div class="fretboard-shell" aria-labelledby="fretboard-title">
@@ -149,10 +173,10 @@
           </article>
         </section>
 
-        <section class="section practice-section" id="practice" aria-labelledby="practice-title">
+        <section class="section tips-section" id="tips" aria-labelledby="tips-title">
           <div class="section-heading">
-            <p class="eyebrow" data-i18n="practice.eyebrow"></p>
-            <h2 id="practice-title" data-i18n="practice.title"></h2>
+            <p class="eyebrow" data-i18n="tips.eyebrow"></p>
+            <h2 id="tips-title" data-i18n="tips.title"></h2>
           </div>
           <div id="tips-grid" class="tips-grid"></div>
         </section>

@@ -12,20 +12,63 @@ const shapeZones = {
   D: [8, 12]
 };
 
+const scaleDefinitions = {
+  major: [
+    { interval: "R", semitones: 0 },
+    { interval: "2", semitones: 2 },
+    { interval: "3", semitones: 4 },
+    { interval: "4", semitones: 5 },
+    { interval: "5", semitones: 7 },
+    { interval: "6", semitones: 9 },
+    { interval: "7", semitones: 11 }
+  ],
+  naturalMinor: [
+    { interval: "R", semitones: 0 },
+    { interval: "2", semitones: 2 },
+    { interval: "b3", semitones: 3 },
+    { interval: "4", semitones: 5 },
+    { interval: "5", semitones: 7 },
+    { interval: "b6", semitones: 8 },
+    { interval: "b7", semitones: 10 }
+  ],
+  majorPentatonic: [
+    { interval: "R", semitones: 0 },
+    { interval: "2", semitones: 2 },
+    { interval: "3", semitones: 4 },
+    { interval: "5", semitones: 7 },
+    { interval: "6", semitones: 9 }
+  ],
+  minorPentatonic: [
+    { interval: "R", semitones: 0 },
+    { interval: "b3", semitones: 3 },
+    { interval: "4", semitones: 5 },
+    { interval: "5", semitones: 7 },
+    { interval: "b7", semitones: 10 }
+  ],
+  blues: [
+    { interval: "R", semitones: 0 },
+    { interval: "b3", semitones: 3 },
+    { interval: "4", semitones: 5 },
+    { interval: "b5", semitones: 6 },
+    { interval: "5", semitones: 7 },
+    { interval: "b7", semitones: 10 }
+  ]
+};
+
 const translations = {
   zh: {
-    documentTitle: "Fretboard CAGED Lab | CAGED 吉他指板可视化",
-    metaDescription: "Fretboard CAGED Lab 是一个面向吉他学习者的 CAGED 系统可视化教学网页。",
+    documentTitle: "Fretboard CAGED Lab | 吉他指板乐理可视化",
+    metaDescription: "Fretboard CAGED Lab 是一个面向吉他学习者的 CAGED 与音阶可视化教学网页。",
     nav: {
       concept: "概念",
       lab: "实验室",
-      practice: "练习"
+      tips: "学习建议"
     },
     hero: {
-      eyebrow: "CAGED 系统可视化",
-      subtitle: "面向吉他学习者的交互式 CAGED 系统可视化工具",
+      eyebrow: "吉他指板乐理实验室",
+      subtitle: "面向吉他学习者的交互式 CAGED 与音阶可视化工具",
       copy:
-        "这是一个帮助吉他学习者理解 CAGED 系统的可视化教学网页。你可以切换不同调性和 CAGED Shape，直观看到 Root、Major 3rd、Perfect 5th 在指板上的分布。",
+        "这是一个帮助吉他学习者理解 CAGED 系统和常见音阶的可视化教学网页。你可以切换不同调性、CAGED Shape 和音阶类型，直观看到和弦音与音阶音程在指板上的分布。",
       button: "开始探索"
     },
     concept: {
@@ -51,18 +94,33 @@ const translations = {
     },
     controls: {
       eyebrow: "交互实验室",
-      currentChordLabel: "当前和弦：",
+      currentChordLabel: "当前内容：",
+      modeLabel: "模式",
       rootLabel: "Root",
       shapeLabel: "Shape",
+      scaleLabel: "音阶",
       displayLegend: "显示选项",
       showAllNotes: "显示全部音名",
       highlightChordTones: "高亮和弦音",
+      highlightScaleTones: "高亮音阶音",
       showIntervals: "显示音程"
+    },
+    modes: {
+      chord: "和弦 / CAGED 模式",
+      scale: "音阶模式"
+    },
+    scales: {
+      major: "大调音阶",
+      naturalMinor: "自然小调音阶",
+      majorPentatonic: "大调五声音阶",
+      minorPentatonic: "小调五声音阶",
+      blues: "布鲁斯音阶"
     },
     legend: {
       root: "Root",
       third: "Major 3rd",
       fifth: "Perfect 5th",
+      scaleTone: "音阶音",
       other: "其他音"
     },
     fretboard: {
@@ -78,6 +136,35 @@ const translations = {
       rootTipLabel: "根音记忆提示：",
       practiceTipLabel: "练习建议：",
       badgeSuffix: "区域"
+    },
+    modeInfo: {
+      chord: {
+        title: "和弦 / CAGED 模式",
+        copy:
+          "这个模式保留原来的 CAGED 大三和弦视角，帮助你观察 Root、Major 3rd、Perfect 5th 如何落在不同 Shape 区域里。"
+      }
+    },
+    scaleInfo: {
+      major: {
+        title: "大调音阶",
+        copy: "大调音阶适合学习流行、民谣和常见旋律。先找 Root，再观察 2、3、4、5、6、7 的排列，可以把单个把位和整条指板连接起来。"
+      },
+      naturalMinor: {
+        title: "自然小调音阶",
+        copy: "自然小调音阶适合较暗的旋律、摇滚和抒情片段。它能帮助你理解 b3、b6、b7 的声音，并和大调音阶作对比。"
+      },
+      majorPentatonic: {
+        title: "大调五声音阶",
+        copy: "大调五声音阶声音明亮，常用于流行、乡村和轻快即兴。音少、冲突少，很适合建立旋律感和指板记忆。"
+      },
+      minorPentatonic: {
+        title: "小调五声音阶",
+        copy: "小调五声音阶是摇滚、布鲁斯和即兴入门的核心素材。先记住 Root 与 b3、4、5、b7 的关系，再横向连接不同把位。"
+      },
+      blues: {
+        title: "布鲁斯音阶",
+        copy: "布鲁斯音阶在小调五声音阶中加入 b5，适合布鲁斯、摇滚和带张力的短句。注意 b5 的经过音效果，不必每次都停留太久。"
+      }
     },
     shapeInfo: {
       C: {
@@ -116,8 +203,8 @@ const translations = {
         practiceTip: "在 1 到 4 弦之间练小范围 1-3-5，适合接到旋律或双音练习。"
       }
     },
-    practice: {
-      eyebrow: "练习建议",
+    tips: {
+      eyebrow: "学习建议",
       title: "把可视化变成手上的记忆",
       tips: [
         {
@@ -145,19 +232,19 @@ const translations = {
     languageToggle: "English"
   },
   en: {
-    documentTitle: "Fretboard CAGED Lab | CAGED Guitar Fretboard Visualizer",
+    documentTitle: "Fretboard CAGED Lab | Guitar Fretboard Theory Visualizer",
     metaDescription:
-      "Fretboard CAGED Lab is an interactive CAGED system visualizer for guitar learners.",
+      "Fretboard CAGED Lab is an interactive CAGED and scale visualizer for guitar learners.",
     nav: {
       concept: "Concept",
       lab: "Lab",
-      practice: "Practice"
+      tips: "Tips"
     },
     hero: {
-      eyebrow: "CAGED System Visualizer",
-      subtitle: "Interactive CAGED System Visualizer for Guitar Learners",
+      eyebrow: "Guitar Fretboard Theory Lab",
+      subtitle: "Interactive CAGED and Scale Visualizer for Guitar Learners",
       copy:
-        "Fretboard CAGED Lab helps guitar learners understand the CAGED system by showing Root, Major 3rd, and Perfect 5th positions across the fretboard in different keys and shapes.",
+        "Fretboard CAGED Lab helps guitar learners understand the CAGED system and common scales by showing chord tones and scale intervals across the fretboard in different keys, shapes, and modes.",
       button: "Start Exploring"
     },
     concept: {
@@ -183,18 +270,33 @@ const translations = {
     },
     controls: {
       eyebrow: "Interactive Lab",
-      currentChordLabel: "Current Chord:",
+      currentChordLabel: "Current:",
+      modeLabel: "Mode",
       rootLabel: "Root",
       shapeLabel: "Shape",
+      scaleLabel: "Scale",
       displayLegend: "Display Options",
       showAllNotes: "Show all notes",
       highlightChordTones: "Highlight chord tones",
+      highlightScaleTones: "Highlight scale tones",
       showIntervals: "Show intervals"
+    },
+    modes: {
+      chord: "Chord / CAGED Mode",
+      scale: "Scale Mode"
+    },
+    scales: {
+      major: "Major Scale",
+      naturalMinor: "Natural Minor Scale",
+      majorPentatonic: "Major Pentatonic",
+      minorPentatonic: "Minor Pentatonic",
+      blues: "Blues Scale"
     },
     legend: {
       root: "Root",
       third: "Major 3rd",
       fifth: "Perfect 5th",
+      scaleTone: "Scale tone",
       other: "Other notes"
     },
     fretboard: {
@@ -210,6 +312,40 @@ const translations = {
       rootTipLabel: "Root memory tip: ",
       practiceTipLabel: "Practice tip: ",
       badgeSuffix: "Zone"
+    },
+    modeInfo: {
+      chord: {
+        title: "Chord / CAGED Mode",
+        copy:
+          "This mode keeps the original CAGED major triad view, showing how the Root, Major 3rd, and Perfect 5th sit inside each movable shape area."
+      }
+    },
+    scaleInfo: {
+      major: {
+        title: "Major Scale",
+        copy:
+          "The major scale is useful for pop, folk, and clear melodic writing. Find the Roots first, then follow 2, 3, 4, 5, 6, and 7 to connect one position with the wider fretboard."
+      },
+      naturalMinor: {
+        title: "Natural Minor Scale",
+        copy:
+          "The natural minor scale works well for darker melodies, rock ideas, and expressive lines. It teaches the sound of b3, b6, and b7 against the Root."
+      },
+      majorPentatonic: {
+        title: "Major Pentatonic",
+        copy:
+          "Major pentatonic is bright and direct, common in pop, country, and melodic improvisation. With fewer notes, it is a friendly way to build fretboard memory."
+      },
+      minorPentatonic: {
+        title: "Minor Pentatonic",
+        copy:
+          "Minor pentatonic is a core sound for rock, blues, and beginner improvisation. Use it to connect Roots with b3, 4, 5, and b7 across nearby positions."
+      },
+      blues: {
+        title: "Blues Scale",
+        copy:
+          "The blues scale adds b5 to the minor pentatonic sound. It is useful for blues and rock phrases where you want extra tension and passing-note color."
+      }
     },
     shapeInfo: {
       C: {
@@ -248,8 +384,8 @@ const translations = {
         practiceTip: "Practice 1-3-5 on strings 1 through 4, then connect the shape to melody or double-stop ideas."
       }
     },
-    practice: {
-      eyebrow: "Practice Tips",
+    tips: {
+      eyebrow: "Learning Tips",
       title: "Turn the visual map into fretboard memory",
       tips: [
         {
@@ -296,6 +432,19 @@ function getChordTones(root) {
     third: notes[(rootIndex + 4) % notes.length],
     fifth: notes[(rootIndex + 7) % notes.length]
   };
+}
+
+function getScaleTones(root, scaleType) {
+  const rootIndex = getNoteIndex(root);
+  return scaleDefinitions[scaleType].map(({ interval, semitones }) => ({
+    interval,
+    note: notes[(rootIndex + semitones) % notes.length]
+  }));
+}
+
+function getScaleIntervalName(note, scaleTones) {
+  const tone = scaleTones.find((scaleTone) => scaleTone.note === note);
+  return tone ? tone.interval : "";
 }
 
 function getIntervalName(note, chordTones) {
@@ -351,14 +500,26 @@ function updateTexts() {
   });
 
   renderConceptCards();
-  renderPracticeTips();
+  renderLearningTips();
   dom.currentChordLabel.textContent = t.controls.currentChordLabel;
   dom.shapeRootLabel.textContent = t.shape.rootTipLabel;
   dom.shapePracticeLabel.textContent = t.shape.practiceTipLabel;
   dom.footerAuthor.textContent = t.footer.author;
   dom.fretboardScroll.setAttribute("aria-label", t.fretboard.scrollLabel);
   dom.fretboard.setAttribute("aria-label", t.fretboard.gridLabel);
+  updateSelectOptions();
   updateLanguageToggle();
+}
+
+function updateSelectOptions() {
+  [...dom.modeSelect.options].forEach((option) => {
+    option.textContent = translations[currentLanguage].modes[option.value];
+  });
+
+  [...dom.scaleSelect.options].forEach((option) => {
+    option.textContent = translations[currentLanguage].scales[option.value];
+  });
+
 }
 
 function updateLanguageToggle() {
@@ -366,8 +527,9 @@ function updateLanguageToggle() {
   dom.languageToggle.setAttribute("aria-label", translations[currentLanguage].languageToggle);
 }
 
-function getIntervalClass(intervalName) {
+function getIntervalClass(intervalName, mode = "chord") {
   if (intervalName === "R") return "interval-root";
+  if (mode === "scale" && intervalName) return "interval-scale";
   if (intervalName === "3") return "interval-third";
   if (intervalName === "5") return "interval-fifth";
   return "";
@@ -406,8 +568,8 @@ function renderConceptCards() {
   renderCards(dom.conceptGrid, translations[currentLanguage].concept.cards, "info-card");
 }
 
-function renderPracticeTips() {
-  renderCards(dom.tipsGrid, translations[currentLanguage].practice.tips, "tip-card");
+function renderLearningTips() {
+  renderCards(dom.tipsGrid, translations[currentLanguage].tips.tips, "tip-card");
 }
 
 function formatText(template, values) {
@@ -416,8 +578,11 @@ function formatText(template, values) {
 
 function renderFretboard() {
   const root = dom.rootSelect.value;
+  const currentMode = dom.modeSelect.value;
   const selectedShape = dom.shapeSelect.value;
+  const selectedScale = dom.scaleSelect.value;
   const chordTones = getChordTones(root);
+  const scaleTones = getScaleTones(root, selectedScale);
   const showAllNotes = dom.showAllNotes.checked;
   const highlightChordTones = dom.highlightChordTones.checked;
   const showIntervals = dom.showIntervals.checked;
@@ -437,18 +602,27 @@ function renderFretboard() {
 
     for (let fret = 0; fret <= 12; fret += 1) {
       const note = getNoteAtFret(openString, fret);
-      const intervalName = getIntervalName(note, chordTones);
-      const isChordTone = Boolean(intervalName);
+      const intervalName =
+        currentMode === "scale" ? getScaleIntervalName(note, scaleTones) : getIntervalName(note, chordTones);
+      const isActiveTone = Boolean(intervalName);
       const cell = document.createElement("button");
       const classes = ["note-cell"];
 
-      if (fret >= zoneStart && fret <= zoneEnd) classes.push("shape-zone");
-      if (isChordTone && highlightChordTones) classes.push("is-chord", getIntervalClass(intervalName));
-      if (!showAllNotes && !isChordTone) classes.push("is-hidden");
-      if (showAllNotes && !isChordTone) classes.push("is-muted");
+      if (currentMode === "chord" && fret >= zoneStart && fret <= zoneEnd) classes.push("shape-zone");
+      if (isActiveTone) {
+        classes.push(currentMode === "scale" ? "is-scale" : "is-chord", getIntervalClass(intervalName, currentMode));
+      }
+      if (isActiveTone && !highlightChordTones) {
+        classes.push("is-soft-highlight");
+      }
+      if (!showAllNotes && !isActiveTone) classes.push("is-hidden");
+      if (showAllNotes && !isActiveTone) classes.push("is-muted");
 
       cell.type = "button";
       cell.className = classes.filter(Boolean).join(" ");
+      cell.dataset.note = note;
+      cell.dataset.fret = fret;
+      cell.dataset.string = stringNumber;
       cell.setAttribute("role", "gridcell");
       cell.setAttribute(
         "aria-label",
@@ -465,10 +639,10 @@ function renderFretboard() {
 
       const noteName = document.createElement("span");
       noteName.className = "note-name";
-      noteName.textContent = showAllNotes || isChordTone ? note : "";
+      noteName.textContent = showAllNotes || isActiveTone ? note : "";
       content.appendChild(noteName);
 
-      if (showIntervals && isChordTone) {
+      if (showIntervals && isActiveTone) {
         const interval = document.createElement("span");
         interval.className = "interval";
         interval.textContent = intervalName;
@@ -484,7 +658,10 @@ function renderFretboard() {
 function updateShapeExplanation() {
   const selectedShape = dom.shapeSelect.value;
   const info = translations[currentLanguage].shapeInfo[selectedShape];
+  const isChordMode = dom.modeSelect.value === "chord";
 
+  dom.shapeExplanation.classList.toggle("is-hidden", !isChordMode);
+  if (!isChordMode) return;
   dom.shapeName.textContent = info.name;
   dom.shapeDescription.textContent = info.description;
   dom.shapeRootTip.textContent = info.rootTip;
@@ -492,9 +669,48 @@ function updateShapeExplanation() {
   dom.shapeBadge.textContent = `${info.name} ${translations[currentLanguage].shape.badgeSuffix}`;
 }
 
-function updateCurrentChordTitle() {
+function updateModeControls() {
+  const currentMode = dom.modeSelect.value;
+  const t = translations[currentLanguage];
+  const isScaleMode = currentMode === "scale";
+
+  dom.shapeField.classList.toggle("is-hidden", currentMode !== "chord");
+  dom.scaleField.classList.toggle("is-hidden", !isScaleMode);
+  dom.showAllNotes.disabled = false;
+  dom.highlightChordTones.disabled = false;
+  dom.showIntervals.disabled = false;
+  dom.highlightToneLabel.textContent = isScaleMode ? t.controls.highlightScaleTones : t.controls.highlightChordTones;
+
+  dom.legendRootLabel.textContent = t.legend.root;
+  dom.legendThirdLabel.textContent = isScaleMode ? t.legend.scaleTone : t.legend.third;
+  dom.legendFifthLabel.textContent = t.legend.fifth;
+  dom.legendOtherLabel.textContent = t.legend.other;
+  dom.legendFifthItem.classList.toggle("is-hidden", currentMode !== "chord");
+
+  if (isScaleMode) {
+    const scaleInfo = t.scaleInfo[dom.scaleSelect.value];
+    dom.modeExplanationTitle.textContent = `${dom.rootSelect.value} ${scaleInfo.title}`;
+    dom.modeExplanationCopy.textContent = scaleInfo.copy;
+    dom.shapeBadge.textContent = t.modes.scale;
+    return;
+  }
+
+  dom.modeExplanationTitle.textContent = t.modeInfo.chord.title;
+  dom.modeExplanationCopy.textContent = t.modeInfo.chord.copy;
+}
+
+function updateCurrentTitle() {
+  const currentMode = dom.modeSelect.value;
   const root = dom.rootSelect.value;
   const chordTones = getChordTones(root);
+  const scaleInfo = translations[currentLanguage].scaleInfo[dom.scaleSelect.value];
+
+  if (currentMode === "scale") {
+    dom.currentChordTitle.textContent = `${root} ${scaleInfo.title}`;
+    dom.currentChordTitle.setAttribute("title", `${root} ${scaleInfo.title}`);
+    return;
+  }
+
   dom.currentChordTitle.textContent = `${root} Major`;
   dom.currentChordTitle.setAttribute(
     "title",
@@ -503,19 +719,14 @@ function updateCurrentChordTitle() {
 }
 
 function updateView() {
-  updateCurrentChordTitle();
+  updateModeControls();
+  updateCurrentTitle();
   updateShapeExplanation();
   renderFretboard();
 }
 
 function bindEvents() {
-  [
-    dom.rootSelect,
-    dom.shapeSelect,
-    dom.showAllNotes,
-    dom.highlightChordTones,
-    dom.showIntervals
-  ].forEach((control) => {
+  [dom.modeSelect, dom.rootSelect, dom.shapeSelect, dom.scaleSelect, dom.showAllNotes, dom.highlightChordTones, dom.showIntervals].forEach((control) => {
     control.addEventListener("change", updateView);
   });
 
@@ -541,10 +752,15 @@ function cacheDom() {
   dom.languageGate = document.querySelector("#language-gate");
   dom.app = document.querySelector("#app");
   dom.languageToggle = document.querySelector("#language-toggle");
+  dom.modeSelect = document.querySelector("#mode-select");
   dom.rootSelect = document.querySelector("#root-select");
+  dom.shapeField = document.querySelector("#shape-field");
   dom.shapeSelect = document.querySelector("#shape-select");
+  dom.scaleField = document.querySelector("#scale-field");
+  dom.scaleSelect = document.querySelector("#scale-select");
   dom.showAllNotes = document.querySelector("#show-all-notes");
   dom.highlightChordTones = document.querySelector("#highlight-chord-tones");
+  dom.highlightToneLabel = document.querySelector("#highlight-tone-label");
   dom.showIntervals = document.querySelector("#show-intervals");
   dom.currentChordLabel = document.querySelector("#current-chord-label");
   dom.currentChordTitle = document.querySelector("#current-chord-title");
@@ -558,7 +774,15 @@ function cacheDom() {
   dom.shapeRootTip = document.querySelector("#shape-root-tip");
   dom.shapePracticeLabel = document.querySelector("#shape-practice-label");
   dom.shapePracticeTip = document.querySelector("#shape-practice-tip");
+  dom.shapeExplanation = document.querySelector(".shape-explanation");
   dom.shapeBadge = document.querySelector("#shape-badge");
+  dom.modeExplanationTitle = document.querySelector("#mode-explanation-title");
+  dom.modeExplanationCopy = document.querySelector("#mode-explanation-copy");
+  dom.legendRootLabel = document.querySelector("#legend-root-label");
+  dom.legendThirdLabel = document.querySelector("#legend-third-label");
+  dom.legendFifthLabel = document.querySelector("#legend-fifth-label");
+  dom.legendOtherLabel = document.querySelector("#legend-other-label");
+  dom.legendFifthItem = document.querySelector("#legend-fifth-item");
   dom.footerAuthor = document.querySelector("#footer-author");
 }
 

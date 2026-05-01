@@ -1,7 +1,7 @@
 # 🎸 Fretboard CAGED Lab
 
-> Interactive CAGED System Visualizer for Guitar Learners  
-> 一个面向吉他学习者的 CAGED 系统可视化教学网页。
+> Interactive CAGED and Scale Visualizer for Guitar Learners  
+> 一个面向吉他学习者的 CAGED 与音阶可视化教学网页。
 
 ![HTML](https://img.shields.io/badge/HTML5-Structure-orange)
 ![CSS](https://img.shields.io/badge/CSS3-Style-blue)
@@ -19,15 +19,15 @@
 
 ## 🎸 Introduction / 项目简介
 
-**Fretboard CAGED Lab** is an interactive visual teaching demo for guitar learners.
+**Fretboard CAGED Lab** is an interactive CAGED and scale visualizer for guitar learners.
 
-It helps users understand the CAGED system through an interactive guitar fretboard. Users can select different root notes and CAGED shapes to see how **Root, Major 3rd, and Perfect 5th** are distributed across the fretboard.
+It helps users understand the CAGED system and common scale patterns through an interactive guitar fretboard. Users can select different root notes, CAGED shapes, and scale types to see how chord tones and scale intervals are distributed across the fretboard.
 
 The project also supports a bilingual interface. When users open the page for the first time, they can choose either **Chinese** or **English**, and the selected language will be saved locally for the next visit.
 
-**Fretboard CAGED Lab** 是一个面向吉他学习者的交互式可视化教学项目。
+**Fretboard CAGED Lab** 是一个面向吉他学习者的 CAGED 与音阶交互式可视化工具。
 
-它通过交互式吉他指板展示不同调性下 **Root、Major 3rd、Perfect 5th** 在指板上的分布，并结合 **C、A、G、E、D** 五种 CAGED Shape 的说明，帮助学习者更直观地理解和弦音、指板结构与形状连接。
+它通过交互式吉他指板展示不同调性下的和弦音与音阶音程分布，并结合 **C、A、G、E、D** 五种 CAGED Shape 和常见音阶说明，帮助学习者更直观地理解和弦音、音阶、指板结构与把位连接。
 
 项目同时支持中英文界面。用户首次打开网页时，可以选择 **中文** 或 **English**，系统会将语言偏好保存在本地，下次打开时自动使用上一次选择的语言。
 
@@ -71,6 +71,14 @@ The project also supports a bilingual interface. When users open the page for th
   Switch between C Shape, A Shape, G Shape, E Shape, and D Shape.  
   支持 C Shape、A Shape、G Shape、E Shape、D Shape 切换。
 
+- **Mode Selector**  
+  Switch between Chord / CAGED Mode and Scale Mode.  
+  支持在和弦 / CAGED 模式和音阶模式之间切换。
+
+- **Scale Explorer**  
+  Visualize Major Scale, Natural Minor Scale, Major Pentatonic, Minor Pentatonic, and Blues Scale intervals across the fretboard.  
+  可视化大调音阶、自然小调音阶、大调五声音阶、小调五声音阶和布鲁斯音阶在指板上的音程分布。
+
 - **Interactive Fretboard**  
   Display 6 guitar strings and frets from 0 to 12.  
   展示标准吉他调弦下的 6 根弦与 0-12 品。
@@ -80,8 +88,8 @@ The project also supports a bilingual interface. When users open the page for th
   自动计算并高亮 Root、Major 3rd、Perfect 5th。
 
 - **Interval Display**  
-  Show interval labels such as R / 3 / 5.  
-  支持显示 R / 3 / 5，帮助理解和弦音功能。
+  Show interval labels such as R / 3 / 5 in chord mode and R / 2 / b3 / 4 / 5 / b7 in scale mode.  
+  支持在和弦模式显示 R / 3 / 5，在音阶模式显示 R / 2 / b3 / 4 / 5 / b7 等音程，帮助理解声音功能。
 
 - **Shape Explanation**  
   Provide explanations, root-position tips, and practice suggestions for each CAGED shape.  
@@ -212,9 +220,21 @@ For example:
 C Major = C + E + G
 ```
 
-The current version is mainly designed for visual understanding of the CAGED system and major triad distribution. It is not a full real-world fingering training system.
+The Scale Explorer currently includes:
 
-当前版本主要用于**可视化理解 CAGED 系统和大三和弦音分布**，并不等同于完整的真实指法训练系统。
+当前的音阶探索模式包含：
+
+```text
+Major Scale = R, 2, 3, 4, 5, 6, 7
+Natural Minor Scale = R, 2, b3, 4, 5, b6, b7
+Major Pentatonic = R, 2, 3, 5, 6
+Minor Pentatonic = R, b3, 4, 5, b7
+Blues Scale = R, b3, 4, b5, 5, b7
+```
+
+The current version is mainly designed for visual understanding of the CAGED system, major triad distribution, and common scale intervals. It is not a full real-world fingering training system.
+
+当前版本主要用于**可视化理解 CAGED 系统、大三和弦音分布和常见音阶音程**，并不等同于完整的真实指法训练系统。
 
 ---
 
@@ -233,6 +253,16 @@ These shapes can be moved across the fretboard, helping learners connect chord s
 这些形状可以移动到不同把位，帮助学习者把零散的音名、和弦音和指板区域连接起来。
 
 ---
+
+## 🎛️ Learning Modes / 学习模式
+
+**CAGED Mode** keeps the original chord-tone view. Choose a root and CAGED shape to see Root, Major 3rd, and Perfect 5th positions across the fretboard.
+
+**CAGED 模式** 保留原来的和弦音视角。选择根音和 CAGED Shape 后，可以观察 Root、Major 3rd、Perfect 5th 在指板上的位置。
+
+**Scale Explorer** shows scale intervals for major, natural minor, pentatonic, and blues sounds. It helps learners connect melody notes with fretboard positions.
+
+**音阶探索模式** 展示大调、自然小调、五声音阶和布鲁斯音阶的音程分布，帮助学习者把旋律音和指板位置连接起来。
 
 ## 👥 Who Is This For / 适合人群
 
@@ -259,9 +289,9 @@ This project is suitable for:
 
 ## 🧭 Roadmap / 后续计划
 
+- [x] 🎼 Scale Explorer
 - [ ] 🎵 Minor CAGED
-- [ ] 🎶 Pentatonic Scale
-- [ ] 🎯 Practice Mode
+- [x] 🎶 Pentatonic Scale
 - [ ] 🔊 Audio Playback
 - [ ] 🧠 Fretboard Quiz
 - [ ] 🗺️ Better shape position mapping
