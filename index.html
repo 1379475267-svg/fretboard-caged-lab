@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Fretboard CAGED Lab is an interactive CAGED and scale visualizer for guitar learners."
+      content="Fret & Key Theory Lab is an interactive guitar fretboard and piano keyboard music theory visualizer."
     />
-    <title>Fretboard CAGED Lab</title>
+    <title>Fret & Key Theory Lab</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <section id="language-gate" class="language-gate" aria-labelledby="language-gate-title">
       <div class="language-card">
-        <p class="eyebrow">Choose Your Interface</p>
-        <h1 id="language-gate-title">Fretboard CAGED Lab</h1>
-        <p class="language-intro">
-          Select a language to start exploring the CAGED system on the guitar fretboard.
+        <p id="language-gate-eyebrow" class="eyebrow">Choose Your Interface</p>
+        <h1 id="language-gate-title">Fret & Key Theory Lab</h1>
+        <p id="language-gate-intro" class="language-intro">
+          Select a language to explore guitar fretboard and piano keyboard theory.
         </p>
         <div class="language-actions" aria-label="Language selection">
           <button class="language-button" type="button" data-language-choice="zh">
@@ -31,14 +31,36 @@
       </div>
     </section>
 
+    <section id="instrument-gate" class="language-gate is-hidden" aria-labelledby="instrument-gate-title">
+      <div class="language-card">
+        <p id="instrument-gate-eyebrow" class="eyebrow"></p>
+        <h1 id="instrument-gate-title"></h1>
+        <p id="instrument-gate-intro" class="language-intro"></p>
+        <div class="language-actions" aria-label="Instrument selection">
+          <button class="language-button instrument-card guitar-card" type="button" data-instrument-choice="guitar">
+            <span id="instrument-gate-guitar-name" class="language-name"></span>
+            <span id="instrument-gate-guitar-tags" class="instrument-tags"></span>
+            <span id="instrument-gate-guitar-note" class="language-note"></span>
+          </button>
+          <button class="language-button instrument-card piano-card" type="button" data-instrument-choice="piano">
+            <span id="instrument-gate-piano-name" class="language-name"></span>
+            <span id="instrument-gate-piano-tags" class="instrument-tags"></span>
+            <span id="instrument-gate-piano-note" class="language-note"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
     <div id="app" class="app-shell is-hidden" aria-hidden="true">
       <header class="hero">
         <nav class="topbar" aria-label="Primary">
-          <a class="brand" href="#top" aria-label="Fretboard CAGED Lab home">FCL</a>
+          <a class="brand" href="#top" aria-label="Fret & Key Theory Lab home">F&amp;K</a>
           <div class="nav-actions">
             <div class="nav-links" aria-label="Page sections">
               <a href="#concept" data-i18n="nav.concept"></a>
+              <a href="#beginner-basics" data-i18n="nav.basics"></a>
               <a href="#lab" data-i18n="nav.lab"></a>
+              <a href="#learning-path" data-i18n="nav.guide"></a>
               <a href="#tips" data-i18n="nav.tips"></a>
             </div>
             <button id="language-toggle" class="language-toggle" type="button"></button>
@@ -46,11 +68,15 @@
         </nav>
 
         <section class="hero-content" id="top">
-          <p class="eyebrow" data-i18n="hero.eyebrow"></p>
-          <h1>Fretboard CAGED Lab</h1>
-          <p class="subtitle" data-i18n="hero.subtitle"></p>
-          <p class="hero-copy" data-i18n="hero.copy"></p>
-          <button class="primary-button" type="button" data-scroll-target="#lab" data-i18n="hero.button"></button>
+          <p class="eyebrow"></p>
+          <h1>Fret &amp; Key Theory Lab</h1>
+          <p class="subtitle"></p>
+          <p class="hero-copy"></p>
+          <div id="hero-chips" class="hero-chips"></div>
+          <div class="hero-actions">
+            <button class="primary-button" type="button" data-scroll-target="#lab" data-i18n="hero.button"></button>
+            <button class="secondary-hero-button" type="button" data-scroll-target="#concept" data-i18n="hero.learnConcept"></button>
+          </div>
         </section>
       </header>
 
@@ -58,9 +84,59 @@
         <section class="section concept-section" id="concept" aria-labelledby="concept-title">
           <div class="section-heading">
             <p class="eyebrow" data-i18n="concept.eyebrow"></p>
-            <h2 id="concept-title" data-i18n="concept.title"></h2>
+            <h2 id="concept-title"></h2>
           </div>
           <div id="concept-grid" class="concept-grid"></div>
+        </section>
+
+        <section class="section beginner-section reveal-on-scroll" id="beginner-basics" aria-labelledby="beginner-basics-title">
+          <div class="beginner-intro-card">
+            <div class="section-heading">
+              <p class="eyebrow" data-i18n="beginnerBasics.eyebrow"></p>
+              <div class="beginner-title-row">
+                <h2 id="beginner-basics-title" data-i18n="beginnerBasics.title"></h2>
+                <span id="beginner-optional-badge" class="optional-badge"></span>
+              </div>
+              <p id="beginner-basics-intro" class="section-intro" data-i18n="beginnerBasics.intro"></p>
+            </div>
+            <button
+              id="beginner-toggle"
+              class="beginner-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="beginner-content"
+            ></button>
+          </div>
+          <div id="beginner-content" class="beginner-content" hidden>
+            <div class="beginner-subsection">
+              <div class="beginner-subsection-heading">
+                <p class="eyebrow" data-i18n="beginnerBasics.piano.eyebrow"></p>
+                <h3 data-i18n="beginnerBasics.piano.title"></h3>
+              </div>
+              <div id="beginner-piano" class="beginner-grid"></div>
+            </div>
+            <div class="beginner-subsection">
+              <div class="beginner-subsection-heading">
+                <p class="eyebrow" data-i18n="beginnerBasics.cMajor.eyebrow"></p>
+                <h3 data-i18n="beginnerBasics.cMajor.title"></h3>
+              </div>
+              <div id="beginner-c-major" class="beginner-grid"></div>
+            </div>
+            <div class="beginner-subsection">
+              <div class="beginner-subsection-heading">
+                <p class="eyebrow" data-i18n="beginnerBasics.staff.eyebrow"></p>
+                <h3 data-i18n="beginnerBasics.staff.title"></h3>
+              </div>
+              <div id="beginner-staff" class="beginner-grid staff-grid"></div>
+            </div>
+            <div class="beginner-subsection">
+              <div class="beginner-subsection-heading">
+                <p class="eyebrow" data-i18n="beginnerBasics.explorer.eyebrow"></p>
+                <h3 data-i18n="beginnerBasics.explorer.title"></h3>
+              </div>
+              <div id="keyboard-staff-explorer" class="keyboard-staff-explorer"></div>
+            </div>
+          </div>
         </section>
 
         <section class="section lab-section" id="lab" aria-labelledby="lab-title">
@@ -70,80 +146,95 @@
           </div>
 
           <div class="control-panel" aria-label="Control panel">
-            <div class="field-group">
-              <label for="mode-select" data-i18n="controls.modeLabel"></label>
-              <select id="mode-select" name="mode">
-                <option value="chord"></option>
-                <option value="scale"></option>
-              </select>
+            <div class="control-group primary-controls">
+              <div class="field-group">
+                <label for="instrument-select" data-i18n="controls.instrumentLabel"></label>
+                <select id="instrument-select" name="instrument">
+                  <option value="guitar"></option>
+                  <option value="piano"></option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label for="mode-select" data-i18n="controls.modeLabel"></label>
+                <select id="mode-select" name="mode">
+                  <option value="chord"></option>
+                  <option value="scale"></option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label for="root-select" data-i18n="controls.rootLabel"></label>
+                <select id="root-select" name="root">
+                  <option value="C">C</option>
+                  <option value="C#">C#</option>
+                  <option value="D">D</option>
+                  <option value="D#">D#</option>
+                  <option value="E">E</option>
+                  <option value="F">F</option>
+                  <option value="F#">F#</option>
+                  <option value="G">G</option>
+                  <option value="G#">G#</option>
+                  <option value="A">A</option>
+                  <option value="A#">A#</option>
+                  <option value="B">B</option>
+                </select>
+              </div>
             </div>
 
-            <div class="field-group">
-              <label for="root-select" data-i18n="controls.rootLabel"></label>
-              <select id="root-select" name="root">
-                <option value="C">C</option>
-                <option value="C#">C#</option>
-                <option value="D">D</option>
-                <option value="D#">D#</option>
-                <option value="E">E</option>
-                <option value="F">F</option>
-                <option value="F#">F#</option>
-                <option value="G">G</option>
-                <option value="G#">G#</option>
-                <option value="A">A</option>
-                <option value="A#">A#</option>
-                <option value="B">B</option>
-              </select>
-            </div>
+            <div class="control-group secondary-controls">
+              <div id="shape-field" class="field-group">
+                <label for="shape-select" data-i18n="controls.shapeLabel"></label>
+                <select id="shape-select" name="shape">
+                  <option value="C">C Shape</option>
+                  <option value="A">A Shape</option>
+                  <option value="G">G Shape</option>
+                  <option value="E">E Shape</option>
+                  <option value="D">D Shape</option>
+                </select>
+              </div>
 
-            <div id="shape-field" class="field-group">
-              <label for="shape-select" data-i18n="controls.shapeLabel"></label>
-              <select id="shape-select" name="shape">
-                <option value="C">C Shape</option>
-                <option value="A">A Shape</option>
-                <option value="G">G Shape</option>
-                <option value="E">E Shape</option>
-                <option value="D">D Shape</option>
-              </select>
-            </div>
+              <div id="scale-field" class="field-group is-hidden">
+                <label for="scale-select" data-i18n="controls.scaleLabel"></label>
+                <select id="scale-select" name="scale">
+                  <option value="major"></option>
+                  <option value="naturalMinor"></option>
+                  <option value="majorPentatonic"></option>
+                  <option value="minorPentatonic"></option>
+                  <option value="blues"></option>
+                </select>
+              </div>
 
-            <div id="scale-field" class="field-group is-hidden">
-              <label for="scale-select" data-i18n="controls.scaleLabel"></label>
-              <select id="scale-select" name="scale">
-                <option value="major"></option>
-                <option value="naturalMinor"></option>
-                <option value="majorPentatonic"></option>
-                <option value="minorPentatonic"></option>
-                <option value="blues"></option>
-              </select>
+              <fieldset class="toggle-group">
+                <legend data-i18n="controls.displayLegend"></legend>
+                <label class="toggle">
+                  <input id="show-all-notes" type="checkbox" checked />
+                  <span data-i18n="controls.showAllNotes"></span>
+                </label>
+                <label class="toggle">
+                  <input id="highlight-chord-tones" type="checkbox" checked />
+                  <span id="highlight-tone-label"></span>
+                </label>
+                <label class="toggle">
+                  <input id="show-intervals" type="checkbox" checked />
+                  <span data-i18n="controls.showIntervals"></span>
+                </label>
+              </fieldset>
             </div>
-
-            <fieldset class="toggle-group">
-              <legend data-i18n="controls.displayLegend"></legend>
-              <label class="toggle">
-                <input id="show-all-notes" type="checkbox" checked />
-                <span data-i18n="controls.showAllNotes"></span>
-              </label>
-              <label class="toggle">
-                <input id="highlight-chord-tones" type="checkbox" checked />
-                <span id="highlight-tone-label"></span>
-              </label>
-              <label class="toggle">
-                <input id="show-intervals" type="checkbox" checked />
-                <span data-i18n="controls.showIntervals"></span>
-              </label>
-            </fieldset>
           </div>
 
           <article id="mode-explanation" class="mode-explanation" aria-live="polite">
+            <div id="state-pills" class="state-pills"></div>
             <h3 id="mode-explanation-title"></h3>
             <p id="mode-explanation-copy"></p>
           </article>
 
-          <div class="legend" aria-label="Fretboard legend">
+          <div class="legend" aria-label="Tone legend">
+            <span id="legend-title" class="legend-title"></span>
             <span id="legend-root-item" class="legend-item"><span class="legend-dot root"></span><span id="legend-root-label"></span></span>
             <span id="legend-third-item" class="legend-item"><span class="legend-dot third"></span><span id="legend-third-label"></span></span>
             <span id="legend-fifth-item" class="legend-item"><span class="legend-dot fifth"></span><span id="legend-fifth-label"></span></span>
+            <span id="legend-scale-item" class="legend-item"><span class="legend-dot scale"></span><span id="legend-scale-label"></span></span>
             <span id="legend-other-item" class="legend-item"><span class="legend-dot other"></span><span id="legend-other-label"></span></span>
           </div>
 
@@ -160,6 +251,19 @@
             </div>
           </div>
 
+          <div id="piano-shell" class="piano-shell is-hidden" aria-labelledby="piano-title">
+            <div class="fretboard-header">
+              <div>
+                <p class="eyebrow" data-i18n="piano.eyebrow"></p>
+                <h3 id="piano-title" data-i18n="piano.title"></h3>
+              </div>
+              <span id="piano-badge" class="shape-badge"></span>
+            </div>
+            <div id="piano-scroll" class="piano-scroll" tabindex="0">
+              <div id="piano-keyboard" class="piano-keyboard" role="group"></div>
+            </div>
+          </div>
+
           <article class="shape-explanation" aria-labelledby="shape-name">
             <div class="shape-title-row">
               <p class="eyebrow" data-i18n="shape.eyebrow"></p>
@@ -171,6 +275,42 @@
               <p><strong id="shape-practice-label"></strong><span id="shape-practice-tip"></span></p>
             </div>
           </article>
+        </section>
+
+        <section class="section learning-path-section reveal-on-scroll" id="learning-path" aria-labelledby="learning-path-title">
+          <div class="section-heading">
+            <p class="eyebrow" data-i18n="learningPath.eyebrow"></p>
+            <h2 id="learning-path-title" data-i18n="learningPath.title"></h2>
+            <p class="section-intro" data-i18n="learningPath.intro"></p>
+          </div>
+          <div id="learning-path-grid" class="learning-path-grid"></div>
+        </section>
+
+        <section class="section scale-guide-section reveal-on-scroll" id="scale-guide" aria-labelledby="scale-guide-title">
+          <div class="section-heading">
+            <p class="eyebrow" data-i18n="scaleGuide.eyebrow"></p>
+            <h2 id="scale-guide-title" data-i18n="scaleGuide.title"></h2>
+            <p class="section-intro" data-i18n="scaleGuide.intro"></p>
+          </div>
+          <div id="scale-guide-grid" class="scale-guide-grid"></div>
+        </section>
+
+        <section class="section comparison-section reveal-on-scroll" id="comparison" aria-labelledby="comparison-title">
+          <div class="section-heading">
+            <p class="eyebrow" data-i18n="comparison.eyebrow"></p>
+            <h2 id="comparison-title" data-i18n="comparison.title"></h2>
+            <p class="section-intro" data-i18n="comparison.intro"></p>
+          </div>
+          <div id="comparison-grid" class="comparison-grid"></div>
+        </section>
+
+        <section class="section routine-section reveal-on-scroll" id="routine" aria-labelledby="routine-title">
+          <div class="section-heading">
+            <p class="eyebrow" data-i18n="routine.eyebrow"></p>
+            <h2 id="routine-title" data-i18n="routine.title"></h2>
+            <p class="section-intro" data-i18n="routine.intro"></p>
+          </div>
+          <div id="routine-steps" class="routine-steps"></div>
         </section>
 
         <section class="section tips-section" id="tips" aria-labelledby="tips-title">
